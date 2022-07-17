@@ -6,22 +6,29 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision C, 05/21/2022
+Software Revision D, 07/16/2022
 
 Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit and Raspberry Pi Buster (no Mac testing yet).
 '''
 
 __author__ = 'reuben.brewer'
 
+#################################################
 from Joystick2DdotDisplay_ReubenPython2and3Class import *
 from MyPrint_ReubenPython2and3Class import *
+#################################################
 
-import os, sys, platform
-import time, datetime
+#################################################
+import os
+import sys
+import platform
+import time
+import datetime
 import threading
 import collections
+#################################################
 
-###############
+#################################################
 if sys.version_info[0] < 3:
     from Tkinter import * #Python 2
     import tkFont
@@ -30,22 +37,22 @@ else:
     from tkinter import * #Python 3
     import tkinter.font as tkFont #Python 3
     from tkinter import ttk
-###############
+#################################################
 
-###############
+#################################################
 if sys.version_info[0] < 3:
     from builtins import raw_input as input
 else:
     from future.builtins import input as input #"sudo pip3 install future" (Python 3) AND "sudo pip install future" (Python 2)
-###############
+#################################################
 
-###############
+#################################################
 import platform
 if platform.system() == "Windows":
     import ctypes
     winmm = ctypes.WinDLL('winmm')
     winmm.timeBeginPeriod(1) #Set minimum timer resolution to 1ms so that time.sleep(0.001) behaves properly.
-###############
+#################################################
 
 ###########################################################################################################
 ##########################################################################################################
@@ -443,11 +450,13 @@ if __name__ == '__main__':
     while(EXIT_PROGRAM_FLAG == 0):
 
         ###################################################
+        ###################################################
         CurrentTime_MainLoopThread = getPreciseSecondsTimeStampString() - StartingTime_MainLoopThread
         ###################################################
-
         ###################################################
-        ######################### SETs
+
+        ################################################### SET's
+        ###################################################
         time_gain = math.pi / (2.0 * SINUSOIDAL_MOTION_INPUT_ROMtestTimeToPeakAngle)
 
         SINUSOIDAL_INPUT_TO_COMMAND_X = (SINUSOIDAL_MOTION_INPUT_MaxValue + SINUSOIDAL_MOTION_INPUT_MinValue)/2.0 + 0.5*abs(SINUSOIDAL_MOTION_INPUT_MaxValue - SINUSOIDAL_MOTION_INPUT_MinValue)*math.sin(time_gain*CurrentTime_MainLoopThread)
@@ -455,7 +464,7 @@ if __name__ == '__main__':
 
         Joystick2DdotDisplay_ReubenPython2and3ClassObject.UpdateDotCoordinatesAndDotColor(SINUSOIDAL_INPUT_TO_COMMAND_X, SINUSOIDAL_INPUT_TO_COMMAND_Y, round(SINUSOIDAL_INPUT_TO_COMMAND_X))
 
-        #########################
+        ###################################################
         ###################################################
 
         time.sleep(0.002)
