@@ -13,7 +13,7 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision F, 09/21/2022
+Software Revision G, 05/10/2023
 
 Verified working on: 
 Python 2.7, 3.8.
@@ -29,6 +29,6 @@ Raspberry Pi Buster
 Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies: ['future.builtins']
 Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['MyPrint_ReubenPython2and3Class']
 Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['future.builtins']
-Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_All: ['future.builtins', 'MyPrint_ReubenPython2and3Class']
+Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_All:['future.builtins', 'MyPrint_ReubenPython2and3Class']
 
 ###########################
