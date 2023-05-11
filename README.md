@@ -2,7 +2,8 @@
 
 Joystick2DdotDisplay_ReubenPython2and3Class
 
-Custom Tkinter GUI object that displays a red-dot (with ability to change color) within an XY grid. Great for displaying XY data (like joystick position).
+Custom Tkinter GUI object that displays a red-dot (with ability to change color) within an XY grid.
+Great for displaying XY data (like joystick position).
 
 Reuben Brewer, Ph.D.
 
@@ -12,7 +13,7 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision F, 09/21/2022
+Software Revision G, 05/10/2023
 
 Verified working on: 
 
@@ -36,6 +37,6 @@ Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_TestProgra
 
 Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: ['future.builtins']
 
-Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_All: ['future.builtins', 'MyPrint_ReubenPython2and3Class']
+Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_All:['future.builtins', 'MyPrint_ReubenPython2and3Class']
 
 ###########################
