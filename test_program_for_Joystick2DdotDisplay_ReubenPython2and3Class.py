@@ -6,16 +6,16 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision I, 09/26/2023
+Software Revision J, 03/07/2025
 
-Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit, Ubuntu 20.04, and Raspberry Pi Buster (no Mac testing yet).
+Verified working on: Python 2.7, 3.11/12 for Windows 10/11 64-bit, Ubuntu 20.04, and Raspberry Pi 4/5.
 '''
 
 __author__ = 'reuben.brewer'
 
 #################################################
-from Joystick2DdotDisplay_ReubenPython2and3Class import *
 from MyPrint_ReubenPython2and3Class import *
+from Joystick2DdotDisplay_ReubenPython2and3Class import *
 #################################################
 
 #################################################
@@ -26,6 +26,7 @@ import time
 import datetime
 import threading
 import collections
+import keyboard
 #################################################
 
 #################################################
@@ -68,8 +69,8 @@ def GUI_update_clock():
     global Joystick2DdotDisplay_OPEN_FLAG
 
     global MyPrint_ReubenPython2and3ClassObject
-    global MYPRINT_OPEN_FLAG
-    global SHOW_IN_GUI_MYPRINT_FLAG
+    global MyPrint_OPEN_FLAG
+    global SHOW_IN_GUI_MyPrint_FLAG
 
     if USE_GUI_FLAG == 1:
         if EXIT_PROGRAM_FLAG == 0:
@@ -82,7 +83,7 @@ def GUI_update_clock():
             #########################################################
 
             #########################################################
-            if MYPRINT_OPEN_FLAG == 1 and SHOW_IN_GUI_MYPRINT_FLAG == 1:
+            if MyPrint_OPEN_FLAG == 1 and SHOW_IN_GUI_MyPrint_FLAG == 1:
                 MyPrint_ReubenPython2and3ClassObject.GUI_update_clock()
             #########################################################
 
@@ -95,7 +96,7 @@ def GUI_update_clock():
 
 ##########################################################################################################
 ##########################################################################################################
-def ExitProgram_Callback():
+def ExitProgram_Callback(OptionalArugment = 0):
     global EXIT_PROGRAM_FLAG
 
     print("ExitProgram_Callback event fired!")
@@ -132,11 +133,11 @@ def GUI_Thread():
         #################################################
         TabControlObject = ttk.Notebook(root)
 
-        Tab_MainControls = ttk.Frame(TabControlObject)
-        TabControlObject.add(Tab_MainControls, text='   Main Controls   ')
-
         Tab_Joystick2DdotDisplay = ttk.Frame(TabControlObject)
         TabControlObject.add(Tab_Joystick2DdotDisplay, text='   Joystick2DdotDisplay   ')
+
+        Tab_MainControls = ttk.Frame(TabControlObject)
+        TabControlObject.add(Tab_MainControls, text='   Main Controls   ')
 
         Tab_MyPrint = ttk.Frame(TabControlObject)
         TabControlObject.add(Tab_MyPrint, text='   MyPrint Terminal   ')
@@ -182,8 +183,9 @@ def GUI_Thread():
     Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict = dict([("GUIparametersDict", Joystick2DdotDisplay_ReubenPython2and3ClassObject_GUIparametersDict),
                                                                          ("JoystickXYboxCanvas_HeightAndWidth", 300),
                                                                          ("Crosshairs_ShowFlag", 1),
-                                                                         ("Crosshairs_HorizontalLine_Yvalue", -0.25),
-                                                                         ("Crosshairs_VerticalLine_Xvalue", -0.9)])
+                                                                         ("Crosshairs_HorizontalLine_Yvalue", 0.0),
+                                                                         ("Crosshairs_VerticalLine_Xvalue", 0.0),
+                                                                         ("ExtendMarkerRadiallyToOriginFlag", 1)])
 
     try:
         Joystick2DdotDisplay_ReubenPython2and3ClassObject = Joystick2DdotDisplay_ReubenPython2and3Class(Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict)
@@ -246,17 +248,20 @@ if __name__ == '__main__':
     USE_GUI_FLAG = 1
 
     global USE_TABS_IN_GUI_FLAG
-    USE_TABS_IN_GUI_FLAG = 0
+    USE_TABS_IN_GUI_FLAG = 1
 
-    global USE_MYPRINT_FLAG
-    USE_MYPRINT_FLAG = 1
+    global USE_MyPrint_FLAG
+    USE_MyPrint_FLAG = 1
+
+    global USE_KEYBOARD_FLAG
+    USE_KEYBOARD_FLAG = 1
     #################################################
     #################################################
 
     #################################################
     #################################################
-    global SHOW_IN_GUI_MYPRINT_FLAG
-    SHOW_IN_GUI_MYPRINT_FLAG = 1
+    global SHOW_IN_GUI_MyPrint_FLAG
+    SHOW_IN_GUI_MyPrint_FLAG = 1
     #################################################
     #################################################
 
@@ -276,19 +281,19 @@ if __name__ == '__main__':
     GUI_ROWSPAN_Joystick2DdotDisplay = 1
     GUI_COLUMNSPAN_Joystick2DdotDisplay = 1
 
-    global GUI_ROW_MYPRINT
-    global GUI_COLUMN_MYPRINT
-    global GUI_PADX_MYPRINT
-    global GUI_PADY_MYPRINT
-    global GUI_ROWSPAN_MYPRINT
-    global GUI_COLUMNSPAN_MYPRINT
-    GUI_ROW_MYPRINT = 2
+    global GUI_ROW_MyPrint
+    global GUI_COLUMN_MyPrint
+    global GUI_PADX_MyPrint
+    global GUI_PADY_MyPrint
+    global GUI_ROWSPAN_MyPrint
+    global GUI_COLUMNSPAN_MyPrint
+    GUI_ROW_MyPrint = 2
 
-    GUI_COLUMN_MYPRINT = 0
-    GUI_PADX_MYPRINT = 1
-    GUI_PADY_MYPRINT = 10
-    GUI_ROWSPAN_MYPRINT = 1
-    GUI_COLUMNSPAN_MYPRINT = 1
+    GUI_COLUMN_MyPrint = 0
+    GUI_PADX_MyPrint = 1
+    GUI_PADY_MyPrint = 10
+    GUI_ROWSPAN_MyPrint = 1
+    GUI_COLUMNSPAN_MyPrint = 1
     #################################################
     #################################################
 
@@ -325,14 +330,14 @@ if __name__ == '__main__':
     global StartingTime_MainLoopThread
     StartingTime_MainLoopThread = -11111.0
 
-    global SINUSOIDAL_MOTION_INPUT_ROMtestTimeToPeakAngle
-    SINUSOIDAL_MOTION_INPUT_ROMtestTimeToPeakAngle = 2.0
+    global SinusoidalMotionInput_ROMtestTimeToPeakAngle
+    SinusoidalMotionInput_ROMtestTimeToPeakAngle = 2.0
 
-    global SINUSOIDAL_MOTION_INPUT_MinValue
-    SINUSOIDAL_MOTION_INPUT_MinValue = -1.0
+    global SinusoidalMotionInput_MinValue
+    SinusoidalMotionInput_MinValue = -1.0
 
-    global SINUSOIDAL_MOTION_INPUT_MaxValue
-    SINUSOIDAL_MOTION_INPUT_MaxValue = 1.0
+    global SinusoidalMotionInput_MaxValue
+    SinusoidalMotionInput_MaxValue = 1.0
     #################################################
     #################################################
 
@@ -349,8 +354,8 @@ if __name__ == '__main__':
     #################################################
     global MyPrint_ReubenPython2and3ClassObject
 
-    global MYPRINT_OPEN_FLAG
-    MYPRINT_OPEN_FLAG = -1
+    global MyPrint_OPEN_FLAG
+    MyPrint_OPEN_FLAG = -1
     #################################################
     #################################################
 
@@ -370,20 +375,30 @@ if __name__ == '__main__':
     #################################################
     #################################################
 
-    #################################################
-    #################################################
-    if USE_MYPRINT_FLAG == 1:
 
-        MyPrint_ReubenPython2and3ClassObject_GUIparametersDict = dict([("USE_GUI_FLAG", USE_GUI_FLAG and SHOW_IN_GUI_MYPRINT_FLAG),
+    #################################################
+    #################################################
+    if USE_KEYBOARD_FLAG == 1 and EXIT_PROGRAM_FLAG == 0:
+        keyboard.on_press_key("esc", ExitProgram_Callback)
+    #################################################
+    #################################################
+
+    #################################################
+    #################################################
+    if USE_MyPrint_FLAG == 1:
+
+        global MyPrint_ReubenPython2and3ClassObject_GUIparametersDict
+        MyPrint_ReubenPython2and3ClassObject_GUIparametersDict = dict([("USE_GUI_FLAG", USE_GUI_FLAG and SHOW_IN_GUI_MyPrint_FLAG),
                                                                         ("root", Tab_MyPrint),
                                                                         ("UseBorderAroundThisGuiObjectFlag", 0),
-                                                                        ("GUI_ROW", GUI_ROW_MYPRINT),
-                                                                        ("GUI_COLUMN", GUI_COLUMN_MYPRINT),
-                                                                        ("GUI_PADX", GUI_PADX_MYPRINT),
-                                                                        ("GUI_PADY", GUI_PADY_MYPRINT),
-                                                                        ("GUI_ROWSPAN", GUI_ROWSPAN_MYPRINT),
-                                                                        ("GUI_COLUMNSPAN", GUI_COLUMNSPAN_MYPRINT)])
+                                                                        ("GUI_ROW", GUI_ROW_MyPrint),
+                                                                        ("GUI_COLUMN", GUI_COLUMN_MyPrint),
+                                                                        ("GUI_PADX", GUI_PADX_MyPrint),
+                                                                        ("GUI_PADY", GUI_PADY_MyPrint),
+                                                                        ("GUI_ROWSPAN", GUI_ROWSPAN_MyPrint),
+                                                                        ("GUI_COLUMNSPAN", GUI_COLUMNSPAN_MyPrint)])
 
+        global MyPrint_ReubenPython2and3ClassObject_setup_dict
         MyPrint_ReubenPython2and3ClassObject_setup_dict = dict([("NumberOfPrintLines", 10),
                                                                 ("WidthOfPrintingLabel", 200),
                                                                 ("PrintToConsoleFlag", 1),
@@ -392,7 +407,7 @@ if __name__ == '__main__':
 
         try:
             MyPrint_ReubenPython2and3ClassObject = MyPrint_ReubenPython2and3Class(MyPrint_ReubenPython2and3ClassObject_setup_dict)
-            MYPRINT_OPEN_FLAG = MyPrint_ReubenPython2and3ClassObject.OBJECT_CREATED_SUCCESSFULLY_FLAG
+            MyPrint_OPEN_FLAG = MyPrint_ReubenPython2and3ClassObject.OBJECT_CREATED_SUCCESSFULLY_FLAG
 
         except:
             exceptions = sys.exc_info()[0]
@@ -411,7 +426,7 @@ if __name__ == '__main__':
 
     #################################################
     #################################################
-    if USE_MYPRINT_FLAG == 1 and MYPRINT_OPEN_FLAG != 1:
+    if USE_MyPrint_FLAG == 1 and MyPrint_OPEN_FLAG != 1:
         print("Failed to open MyPrint_ReubenPython2and3ClassObject.")
         ExitProgram_Callback()
     #################################################
@@ -432,13 +447,12 @@ if __name__ == '__main__':
 
         ################################################### SET's
         ###################################################
-        time_gain = math.pi / (2.0 * SINUSOIDAL_MOTION_INPUT_ROMtestTimeToPeakAngle)
+        SinusoidalMotionInput_TimeGain = math.pi / (2.0 * SinusoidalMotionInput_ROMtestTimeToPeakAngle)
 
-        SINUSOIDAL_INPUT_TO_COMMAND_X = (SINUSOIDAL_MOTION_INPUT_MaxValue + SINUSOIDAL_MOTION_INPUT_MinValue)/2.0 + 0.5*abs(SINUSOIDAL_MOTION_INPUT_MaxValue - SINUSOIDAL_MOTION_INPUT_MinValue)*math.sin(time_gain*CurrentTime_MainLoopThread)
-        SINUSOIDAL_INPUT_TO_COMMAND_Y = (SINUSOIDAL_MOTION_INPUT_MaxValue + SINUSOIDAL_MOTION_INPUT_MinValue)/2.0 + 0.5*abs(SINUSOIDAL_MOTION_INPUT_MaxValue - SINUSOIDAL_MOTION_INPUT_MinValue)*math.cos(time_gain*CurrentTime_MainLoopThread)
+        SinusoidalMotionInput_CommandedValue_X = (SinusoidalMotionInput_MaxValue + SinusoidalMotionInput_MinValue)/2.0 + 0.5*abs(SinusoidalMotionInput_MaxValue - SinusoidalMotionInput_MinValue)*math.sin(SinusoidalMotionInput_TimeGain*CurrentTime_MainLoopThread)
+        SinusoidalMotionInput_CommandedValue_Y = (SinusoidalMotionInput_MaxValue + SinusoidalMotionInput_MinValue)/2.0 + 0.5*abs(SinusoidalMotionInput_MaxValue - SinusoidalMotionInput_MinValue)*math.cos(SinusoidalMotionInput_TimeGain*CurrentTime_MainLoopThread)
 
-        Joystick2DdotDisplay_ReubenPython2and3ClassObject.UpdateDotCoordinatesAndDotColor(SINUSOIDAL_INPUT_TO_COMMAND_X, SINUSOIDAL_INPUT_TO_COMMAND_Y, round(SINUSOIDAL_INPUT_TO_COMMAND_X))
-
+        Joystick2DdotDisplay_ReubenPython2and3ClassObject.UpdateDotCoordinatesAndDotColor(SinusoidalMotionInput_CommandedValue_X, SinusoidalMotionInput_CommandedValue_Y, round(SinusoidalMotionInput_CommandedValue_X))
         ###################################################
         ###################################################
 
@@ -451,7 +465,13 @@ if __name__ == '__main__':
     print("Exiting main program 'test_program_for_Joystick2DdotDisplay_ReubenPython2and3Class.")
 
     #################################################
-    if MYPRINT_OPEN_FLAG == 1:
+    if Joystick2DdotDisplay_OPEN_FLAG == 1:
+        pass
+        #Joystick2DdotDisplay_ReubenPython2and3ClassObject.ExitProgram_Callback() #THIS FUNCTION DOESN'T EXIST AS THE CLASS DOESN NOT NEED TO BE CLOSED.
+    #################################################
+
+    #################################################
+    if MyPrint_OPEN_FLAG == 1:
         MyPrint_ReubenPython2and3ClassObject.ExitProgram_Callback()
     #################################################
 

@@ -6,9 +6,9 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision I, 09/26/2023
+Software Revision J, 03/07/2025
 
-Verified working on: Python 2.7, 3.8 for Windows 8.1, 10 64-bit, Ubuntu 20.04, and Raspberry Pi Buster (no Mac testing yet).
+Verified working on: Python 2.7, 3.11/12 for Windows 10/11 64-bit, Ubuntu 20.04, and Raspberry Pi 4/5.
 '''
 
 __author__ = 'reuben.brewer'
@@ -74,6 +74,8 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         self.Input_Xvalue = 0
         self.Input_Yvalue = 0
         self.DotHighlightedLikeButtonPress_State = 0
+        
+        self.ListOfAcceptableColorsEnglishNameStrings = ["Red", "Blue", "Green", "Yellow", "Orange", "Black", "Gray", "Purple"]
         #########################################################
         #########################################################
 
@@ -191,7 +193,7 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         else:
             self.JoystickXYboxCanvas_HeightAndWidth = 150
 
-        print("JoystickHID_ReubenPython2and3Class __init__: JoystickXYboxCanvas_HeightAndWidth: " + str(self.JoystickXYboxCanvas_HeightAndWidth))
+        print("Joystick2DdotDisplay_ReubenPython2and3Class __init__: JoystickXYboxCanvas_HeightAndWidth: " + str(self.JoystickXYboxCanvas_HeightAndWidth))
         #########################################################
         #########################################################
 
@@ -218,6 +220,8 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         #########################################################
         #########################################################
         self.JoystickXYboxCanvas_BorderWidth = 1
+        self.JoystickXYboxCanvas_PointerCircle_Radius = 5
+        self.JoystickXYboxCanvas_PointerLine_Width = 1.2*2.0*self.JoystickXYboxCanvas_PointerCircle_Radius
 
         ### Create and draw canvas
         self.JoystickXYboxCanvas = Canvas(self.myFrame,
@@ -241,8 +245,17 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         ###
 
         ### Create cicle
-        self.JoystickXYboxCanvas_PointerCircle_Radius = 5
-        self.JoystickXYboxCanvas_PointerCircle = self.CreateAndDrawCircleOnCanvas_CanvasCoord(self.JoystickXYboxCanvas, 0, 0, self.JoystickXYboxCanvas_PointerCircle_Radius, "red")
+        self.JoystickXYboxCanvas_PointerCircle = self.CreateAndDrawCircleOnCanvas_CanvasCoord(self.JoystickXYboxCanvas, 0, 0, self.JoystickXYboxCanvas_PointerCircle_Radius, self.PointerColor_Unhighlighted)
+        ###
+        
+        ### Create line
+        self.JoystickXYboxCanvas.create_line(0.0,
+                                             0.0,
+                                             0.0,
+                                             0.0,
+                                             fill=self.PointerColor_Unhighlighted,
+                                             width=self.JoystickXYboxCanvas_PointerLine_Width,
+                                             tags="PointerLine_tag")
         ###
 
         #########################################################
@@ -293,7 +306,7 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         else:
             self.Crosshairs_VerticalLine_Xvalue = 0.0
 
-        print("JoystickHID_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: Crosshairs_VerticalLine_Xvalue: " + str(self.Crosshairs_VerticalLine_Xvalue))
+        print("Joystick2DdotDisplay_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: Crosshairs_VerticalLine_Xvalue: " + str(self.Crosshairs_VerticalLine_Xvalue))
         #########################################################
         #########################################################
 
@@ -304,92 +317,69 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         else:
             self.Crosshairs_HorizontalLine_Yvalue = 0.0
 
-        print("JoystickHID_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: Crosshairs_HorizontalLine_Yvalue: " + str(self.Crosshairs_HorizontalLine_Yvalue))
+        print("Joystick2DdotDisplay_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: Crosshairs_HorizontalLine_Yvalue: " + str(self.Crosshairs_HorizontalLine_Yvalue))
+        #########################################################
+        #########################################################
+
+        #########################################################
+        #########################################################
+        if "ExtendMarkerRadiallyToOriginFlag" in setup_dict:
+            self.ExtendMarkerRadiallyToOriginFlag = self.PassThrough0and1values_ExitProgramOtherwise("ExtendMarkerRadiallyToOriginFlag", setup_dict["ExtendMarkerRadiallyToOriginFlag"])
+        else:
+            self.ExtendMarkerRadiallyToOriginFlag = 0
+
+        print("Joystick2DdotDisplay_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: ExtendMarkerRadiallyToOriginFlag: " + str(self.ExtendMarkerRadiallyToOriginFlag))
+        #########################################################
+        #########################################################
+        
+        #########################################################
+        #########################################################
+        if "PointerColor_Unhighlighted" in setup_dict:
+            PointerColor_Unhighlighted_temp = setup_dict["PointerColor_Unhighlighted"]
+
+            #########################################################
+            if PointerColor_Unhighlighted_temp in self.ListOfAcceptableColorsEnglishNameStrings:
+                self.PointerColor_Unhighlighted = PointerColor_Unhighlighted_temp
+            #########################################################
+
+            #########################################################
+            else:
+                print("Joystick2DdotDisplay_ReubenPython2and3Class: Error, PointerColor_Unhighlighted must be in " + str(self.ListOfAcceptableColorsEnglishNameStrings))
+                self.PointerColor_Unhighlighted = "Red"
+            #########################################################
+            
+        else:
+            self.PointerColor_Unhighlighted = "Red"
+
+        print("Joystick2DdotDisplay_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: PointerColor_Unhighlighted: " + str(self.PointerColor_Unhighlighted))
+        #########################################################
+        #########################################################
+        
+        #########################################################
+        #########################################################
+        if "PointerColor_Highlighted" in setup_dict:
+            PointerColor_Highlighted_temp = setup_dict["PointerColor_Highlighted"]
+
+            #########################################################
+            if PointerColor_Highlighted_temp in self.ListOfAcceptableColorsEnglishNameStrings:
+                self.PointerColor_Highlighted = PointerColor_Highlighted_temp
+            #########################################################
+
+            #########################################################
+            else:
+                print("Joystick2DdotDisplay_ReubenPython2and3Class: Error, PointerColor_Highlighted must be in " + str(self.ListOfAcceptableColorsEnglishNameStrings))
+                self.PointerColor_Highlighted = "Green"
+            #########################################################
+            
+        else:
+            self.PointerColor_Highlighted = "Green"
+
+        print("Joystick2DdotDisplay_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: PointerColor_Highlighted: " + str(self.PointerColor_Highlighted))
         #########################################################
         #########################################################
 
     #######################################################################################################################
     #######################################################################################################################
-
-    ##########################################################################################################
-    ##########################################################################################################
-    def PassThrough0and1values_ExitProgramOtherwise(self, InputNameString, InputNumber):
-
-        try:
-            InputNumber_ConvertedToFloat = float(InputNumber)
-        except:
-            exceptions = sys.exc_info()[0]
-            print("PassThrough0and1values_ExitProgramOtherwise Error. InputNumber must be a float value, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
-
-        try:
-            if InputNumber_ConvertedToFloat == 0.0 or InputNumber_ConvertedToFloat == 1:
-                return InputNumber_ConvertedToFloat
-            else:
-                input("PassThrough0and1values_ExitProgramOtherwise Error. '" +
-                          InputNameString +
-                          "' must be 0 or 1 (value was " +
-                          str(InputNumber_ConvertedToFloat) +
-                          "). Press any key (and enter) to exit.")
-
-                sys.exit()
-        except:
-            exceptions = sys.exc_info()[0]
-            print("PassThrough0and1values_ExitProgramOtherwise Error, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
-    ##########################################################################################################
-    ##########################################################################################################
-
-    ##########################################################################################################
-    ##########################################################################################################
-    def PassThroughFloatValuesInRange_ExitProgramOtherwise(self, InputNameString, InputNumber, RangeMinValue, RangeMaxValue):
-        try:
-            InputNumber_ConvertedToFloat = float(InputNumber)
-        except:
-            exceptions = sys.exc_info()[0]
-            print("PassThroughFloatValuesInRange_ExitProgramOtherwise Error. InputNumber must be a float value, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
-
-        try:
-            if InputNumber_ConvertedToFloat >= RangeMinValue and InputNumber_ConvertedToFloat <= RangeMaxValue:
-                return InputNumber_ConvertedToFloat
-            else:
-                input("PassThroughFloatValuesInRange_ExitProgramOtherwise Error. '" +
-                          InputNameString +
-                          "' must be in the range [" +
-                          str(RangeMinValue) +
-                          ", " +
-                          str(RangeMaxValue) +
-                          "] (value was " +
-                          str(InputNumber_ConvertedToFloat) + "). Press any key (and enter) to exit.")
-
-                sys.exit()
-        except:
-            exceptions = sys.exc_info()[0]
-            print("PassThroughFloatValuesInRange_ExitProgramOtherwise Error, Exceptions: %s" % exceptions)
-            input("Press any key to continue")
-            sys.exit()
-    ##########################################################################################################
-    ##########################################################################################################
-
-    ##########################################################################################################
-    ##########################################################################################################
-    def TellWhichFileWereIn(self):
-
-        #We used to use this method, but it gave us the root calling file, not the class calling file
-        #absolute_file_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        #filename = absolute_file_path[absolute_file_path.rfind("\\") + 1:]
-
-        frame = inspect.stack()[1]
-        filename = frame[1][frame[1].rfind("\\") + 1:]
-        filename = filename.replace(".py","")
-
-        return filename
-    ##########################################################################################################
-    ##########################################################################################################
 
     ##########################################################################################################
     ##########################################################################################################
@@ -406,6 +396,181 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         test_val = float(test_val)
 
         return test_val
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    def PassThrough0and1values_ExitProgramOtherwise(self, InputNameString, InputNumber, ExitProgramIfFailureFlag = 0):
+
+        ##########################################################################################################
+        ##########################################################################################################
+        try:
+
+            ##########################################################################################################
+            InputNumber_ConvertedToFloat = float(InputNumber)
+            ##########################################################################################################
+
+        except:
+
+            ##########################################################################################################
+            exceptions = sys.exc_info()[0]
+            print(self.TellWhichFileWereIn() + ", PassThrough0and1values_ExitProgramOtherwise Error. InputNumber '" + InputNameString + "' must be a numerical value, Exceptions: %s" % exceptions)
+
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
+                sys.exit()
+            else:
+                return -1
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        try:
+
+            ##########################################################################################################
+            if InputNumber_ConvertedToFloat == 0.0 or InputNumber_ConvertedToFloat == 1.0:
+                return InputNumber_ConvertedToFloat
+
+            else:
+
+                print(self.TellWhichFileWereIn() + ", PassThrough0and1values_ExitProgramOtherwise Error. '" +
+                              str(InputNameString) +
+                              "' must be 0 or 1 (value was " +
+                              str(InputNumber_ConvertedToFloat) +
+                              "). Press any key (and enter) to exit.")
+
+                ##########################
+                if ExitProgramIfFailureFlag == 1:
+                    sys.exit()
+
+                else:
+                    return -1
+                ##########################
+
+            ##########################################################################################################
+
+        except:
+
+            ##########################################################################################################
+            exceptions = sys.exc_info()[0]
+            print(self.TellWhichFileWereIn() + ", PassThrough0and1values_ExitProgramOtherwise Error, Exceptions: %s" % exceptions)
+
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
+                sys.exit()
+            else:
+                return -1
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+    def PassThroughFloatValuesInRange_ExitProgramOtherwise(self, InputNameString, InputNumber, RangeMinValue, RangeMaxValue, ExitProgramIfFailureFlag = 0):
+
+        ##########################################################################################################
+        ##########################################################################################################
+        try:
+            ##########################################################################################################
+            InputNumber_ConvertedToFloat = float(InputNumber)
+            ##########################################################################################################
+
+        except:
+            ##########################################################################################################
+            exceptions = sys.exc_info()[0]
+            print(self.TellWhichFileWereIn() + ", PassThroughFloatValuesInRange_ExitProgramOtherwise Error. InputNumber '" + InputNameString + "' must be a float value, Exceptions: %s" % exceptions)
+            traceback.print_exc()
+
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
+                sys.exit()
+            else:
+                return -11111.0
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+        try:
+
+            ##########################################################################################################
+            InputNumber_ConvertedToFloat_Limited = self.LimitNumber_FloatOutputOnly(RangeMinValue, RangeMaxValue, InputNumber_ConvertedToFloat)
+
+            if InputNumber_ConvertedToFloat_Limited != InputNumber_ConvertedToFloat:
+                print(self.TellWhichFileWereIn() + ", PassThroughFloatValuesInRange_ExitProgramOtherwise Error. '" +
+                      str(InputNameString) +
+                      "' must be in the range [" +
+                      str(RangeMinValue) +
+                      ", " +
+                      str(RangeMaxValue) +
+                      "] (value was " +
+                      str(InputNumber_ConvertedToFloat) + ")")
+
+                ##########################
+                if ExitProgramIfFailureFlag == 1:
+                    sys.exit()
+                else:
+                    return -11111.0
+                ##########################
+
+            else:
+                return InputNumber_ConvertedToFloat_Limited
+            ##########################################################################################################
+
+        except:
+            ##########################################################################################################
+            exceptions = sys.exc_info()[0]
+            print(self.TellWhichFileWereIn() + ", PassThroughFloatValuesInRange_ExitProgramOtherwise Error, Exceptions: %s" % exceptions)
+            traceback.print_exc()
+
+            ##########################
+            if ExitProgramIfFailureFlag == 1:
+                sys.exit()
+            else:
+                return -11111.0
+            ##########################
+
+            ##########################################################################################################
+
+        ##########################################################################################################
+        ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    ##########################################################################################################
+
+    ##########################################################################################################
+    ##########################################################################################################
+    def TellWhichFileWereIn(self):
+
+        #We used to use this method, but it gave us the root calling file, not the class calling file
+        #absolute_file_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+        #filename = absolute_file_path[absolute_file_path.rfind("\\") + 1:]
+
+        frame = inspect.stack()[1]
+        filename = frame[1][frame[1].rfind("\\") + 1:]
+        filename = filename.replace(".py","")
+
+        return filename
     ##########################################################################################################
     ##########################################################################################################
 
@@ -519,6 +684,13 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
                     ### Debug drawing functions
 
                     #######################################################
+                    if self.DotHighlightedLikeButtonPress_State == 1:
+                        ColorToUse = self.PointerColor_Highlighted
+                    else:
+                        ColorToUse = self.PointerColor_Unhighlighted
+                    #######################################################
+
+                    #######################################################
                     PointCoords_CanvasCoord = self.ConvertMathPointToJoystickCanvasCoordinates([self.Input_Xvalue, self.Input_Yvalue])
 
                     CircleBoundingBoxCoordinates_CanvasCoord = self.GetCircleBoundingBoxCoordinatesListOnCanvas_CanvasCoord(PointCoords_CanvasCoord[0],
@@ -530,26 +702,34 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
                                                        CircleBoundingBoxCoordinates_CanvasCoord[1],
                                                        CircleBoundingBoxCoordinates_CanvasCoord[2],
                                                        CircleBoundingBoxCoordinates_CanvasCoord[3])
+
+                    self.JoystickXYboxCanvas.itemconfig(self.JoystickXYboxCanvas_PointerCircle, fill=ColorToUse, outline=ColorToUse)
                     #######################################################
-                    
+
                     #######################################################
-                    if self.DotHighlightedLikeButtonPress_State == 1:
-                        self.JoystickXYboxCanvas.itemconfig(self.JoystickXYboxCanvas_PointerCircle, fill='green', outline="green")
-                    else:
-                        self.JoystickXYboxCanvas.itemconfig(self.JoystickXYboxCanvas_PointerCircle, fill='red', outline="red")
+                    if self.ExtendMarkerRadiallyToOriginFlag == 1:
+                        PointerLineCoords_Origin_CanvasCoord = self.ConvertMathPointToJoystickCanvasCoordinates([0.0, 0.0])
+
+                        self.JoystickXYboxCanvas.delete("PointerLine_tag")
+                        ColorToUse
+                        self.JoystickXYboxCanvas.create_line(PointerLineCoords_Origin_CanvasCoord[0] + 1 * self.JoystickXYboxCanvas_BorderWidth,  # Don't cross the border
+                                                             PointerLineCoords_Origin_CanvasCoord[1],
+                                                             PointCoords_CanvasCoord[0] - 1 * self.JoystickXYboxCanvas_BorderWidth,  # Don't cross the border
+                                                             PointCoords_CanvasCoord[1],
+                                                             fill=ColorToUse,
+                                                             width=self.JoystickXYboxCanvas_PointerLine_Width,
+                                                             tags="PointerLine_tag")  # dash=(10)
                     #######################################################
                     
                     #######################################################
                     if self.Crosshairs_ShowFlag == 1:
-
 
                         HorizontalLineCoords_LeftOfLine_CanvasCoord = self.ConvertMathPointToJoystickCanvasCoordinates([-1.0, self.Crosshairs_HorizontalLine_Yvalue])
                         HorizontalLineCoords_RightOfLine_CanvasCoord = self.ConvertMathPointToJoystickCanvasCoordinates([1.0, self.Crosshairs_HorizontalLine_Yvalue])
 
                         VerticalLineCoords_BottomOfLine_CanvasCoord = self.ConvertMathPointToJoystickCanvasCoordinates([self.Crosshairs_VerticalLine_Xvalue, -1.0])
                         VerticalLineCoords_TopOfLine_CanvasCoord = self.ConvertMathPointToJoystickCanvasCoordinates([self.Crosshairs_VerticalLine_Xvalue, 1.0])
-                        
-                        #id = C.create_line(x0, y0, x1, y1, ..., xn, yn, option, ...)
+
                         self.JoystickXYboxCanvas.delete("HorizontalLine_tag")
                         self.JoystickXYboxCanvas.create_line(HorizontalLineCoords_LeftOfLine_CanvasCoord[0] + 1*self.JoystickXYboxCanvas_BorderWidth, #Don't cross the border
                                                              HorizontalLineCoords_LeftOfLine_CanvasCoord[1],
@@ -571,7 +751,7 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
 
                 except:
                     exceptions = sys.exc_info()[0]
-                    print("Joystick2DdotDisplay_ReubenPython2and3Class GUI_update_clock ERROR: Exceptions: %s" % exceptions)
+                    print("Joystick2DdotDisplay_ReubenPython2and3Class GUI_update_clock, Exceptions: %s" % exceptions)
                     traceback.print_exc()
                 #######################################################
                 #######################################################
