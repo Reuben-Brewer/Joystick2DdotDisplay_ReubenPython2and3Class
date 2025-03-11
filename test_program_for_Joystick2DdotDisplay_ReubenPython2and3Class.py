@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision J, 03/07/2025
+Software Revision K, 03/10/2025
 
 Verified working on: Python 2.7, 3.11/12 for Windows 10/11 64-bit, Ubuntu 20.04, and Raspberry Pi 4/5.
 '''
@@ -182,10 +182,12 @@ def GUI_Thread():
     global Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict
     Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict = dict([("GUIparametersDict", Joystick2DdotDisplay_ReubenPython2and3ClassObject_GUIparametersDict),
                                                                          ("JoystickXYboxCanvas_HeightAndWidth", 300),
+                                                                         ("MaxValue", 20.0),
                                                                          ("Crosshairs_ShowFlag", 1),
-                                                                         ("Crosshairs_HorizontalLine_Yvalue", 0.0),
+                                                                         ("Crosshairs_HorizontalLine_Yvalue", 2.0),
                                                                          ("Crosshairs_VerticalLine_Xvalue", 0.0),
-                                                                         ("ExtendMarkerRadiallyToOriginFlag", 1)])
+                                                                         ("ExtendMarkerRadiallyToOriginFlag", 1),
+                                                                         ("CircularBoundary_Radius", 5.0)])
 
     try:
         Joystick2DdotDisplay_ReubenPython2and3ClassObject = Joystick2DdotDisplay_ReubenPython2and3Class(Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict)
@@ -193,7 +195,7 @@ def GUI_Thread():
 
     except:
         exceptions = sys.exc_info()[0]
-        print("Joystick2DdotDisplay_ReubenPython2and3ClassObject __init__: Exceptions: %s" % exceptions, 0)
+        print("Joystick2DdotDisplay_ReubenPython2and3ClassObject __init__: Exceptions: %s" % exceptions)
         traceback.print_exc()
     #################################################
     #################################################
@@ -277,7 +279,7 @@ if __name__ == '__main__':
 
     GUI_COLUMN_Joystick2DdotDisplay = 0
     GUI_PADX_Joystick2DdotDisplay = 1
-    GUI_PADY_Joystick2DdotDisplay = 10
+    GUI_PADY_Joystick2DdotDisplay = 1
     GUI_ROWSPAN_Joystick2DdotDisplay = 1
     GUI_COLUMNSPAN_Joystick2DdotDisplay = 1
 
@@ -291,7 +293,7 @@ if __name__ == '__main__':
 
     GUI_COLUMN_MyPrint = 0
     GUI_PADX_MyPrint = 1
-    GUI_PADY_MyPrint = 10
+    GUI_PADY_MyPrint = 1
     GUI_ROWSPAN_MyPrint = 1
     GUI_COLUMNSPAN_MyPrint = 1
     #################################################
@@ -334,10 +336,10 @@ if __name__ == '__main__':
     SinusoidalMotionInput_ROMtestTimeToPeakAngle = 2.0
 
     global SinusoidalMotionInput_MinValue
-    SinusoidalMotionInput_MinValue = -1.0
+    SinusoidalMotionInput_MinValue = -10.0
 
     global SinusoidalMotionInput_MaxValue
-    SinusoidalMotionInput_MaxValue = 1.0
+    SinusoidalMotionInput_MaxValue = 10.0
     #################################################
     #################################################
 
