@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision K, 03/10/2025
+Software Revision L, 03/27/2025
 
 Verified working on: Python 2.7, 3.11/12 for Windows 10/11 64-bit, Ubuntu 20.04, and Raspberry Pi 4/5.
 '''
@@ -282,6 +282,17 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
     #######################################################################################################################
     #######################################################################################################################
     def ProcessSetupDictInputsTheCanBeLiveChanged(self, setup_dict):
+
+        #########################################################
+        #########################################################
+        if "NameToDisplay_UserSet" in setup_dict:
+            self.NameToDisplay_UserSet = str(setup_dict["NameToDisplay_UserSet"])
+        else:
+            self.NameToDisplay_UserSet = ""
+
+        print("Joystick2DdotDisplay_ReubenPython2and3Class ProcessSetupDictInputsTheCanBeLiveChanged: NameToDisplay_UserSet: " + str(self.NameToDisplay_UserSet))
+        #########################################################
+        #########################################################
 
         #########################################################
         #########################################################
@@ -724,7 +735,7 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
                     #######################################################
 
                     #######################################################
-                    self.DebuggingInfo_Label["text"] = self.ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput([self.Input_Xvalue, self.Input_Yvalue], 0, 3)
+                    self.DebuggingInfo_Label["text"] = self.NameToDisplay_UserSet + " " + self.ConvertFloatToStringWithNumberOfLeadingNumbersAndDecimalPlaces_NumberOrListInput([self.Input_Xvalue, self.Input_Yvalue], 0, 3)
                     #######################################################
 
                     #######################################################

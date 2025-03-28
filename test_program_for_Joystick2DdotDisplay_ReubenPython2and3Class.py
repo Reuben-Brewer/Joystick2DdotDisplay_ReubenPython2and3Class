@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision K, 03/10/2025
+Software Revision L, 03/27/2025
 
 Verified working on: Python 2.7, 3.11/12 for Windows 10/11 64-bit, Ubuntu 20.04, and Raspberry Pi 4/5.
 '''
@@ -181,6 +181,7 @@ def GUI_Thread():
 
     global Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict
     Joystick2DdotDisplay_ReubenPython2and3ClassObject_setup_dict = dict([("GUIparametersDict", Joystick2DdotDisplay_ReubenPython2and3ClassObject_GUIparametersDict),
+                                                                         ("NameToDisplay_UserSet", "Test"),
                                                                          ("JoystickXYboxCanvas_HeightAndWidth", 300),
                                                                          ("MaxValue", 20.0),
                                                                          ("Crosshairs_ShowFlag", 1),
