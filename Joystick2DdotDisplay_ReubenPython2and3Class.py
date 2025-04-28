@@ -6,7 +6,7 @@ reuben.brewer@gmail.com
 www.reubotics.com
 
 Apache 2 License
-Software Revision L, 03/27/2025
+Software Revision M, 04/28/2025
 
 Verified working on: Python 2.7, 3.11/12 for Windows 10/11 64-bit, Ubuntu 20.04, and Raspberry Pi 4/5.
 '''
@@ -199,6 +199,17 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
 
         #########################################################
         #########################################################
+        if "JoystickXYboxCanvas_FontSize" in setup_dict:
+            self.JoystickXYboxCanvas_FontSize = int(self.PassThroughFloatValuesInRange_ExitProgramOtherwise("JoystickXYboxCanvas_FontSize", setup_dict["JoystickXYboxCanvas_FontSize"], 8.0, 100.0))
+        else:
+            self.JoystickXYboxCanvas_FontSize = 12
+
+        print("Joystick2DdotDisplay_ReubenPython2and3Class __init__: JoystickXYboxCanvas_FontSize: " + str(self.JoystickXYboxCanvas_FontSize))
+        #########################################################
+        #########################################################
+
+        #########################################################
+        #########################################################
         self.ProcessSetupDictInputsTheCanBeLiveChanged(setup_dict)
         #########################################################
         #########################################################
@@ -249,7 +260,7 @@ class Joystick2DdotDisplay_ReubenPython2and3Class(Frame): #Subclass the Tkinter 
         #########################################################
 
         #########################################################
-        self.DebuggingInfo_Label = Label(self.myFrame, text="RobotSelected", font=("Helvetica", 20))
+        self.DebuggingInfo_Label = Label(self.myFrame, text="DebuggingInfo_Label", font=("Helvetica", self.JoystickXYboxCanvas_FontSize))
         self.DebuggingInfo_Label.grid(row=1, column=0, padx=1, pady=1, columnspan=1, rowspan=1)
         #########################################################
 
