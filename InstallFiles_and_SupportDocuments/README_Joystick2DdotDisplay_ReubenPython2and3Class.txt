@@ -13,11 +13,11 @@ www.reubotics.com
 
 Apache 2 License
 
-Software Revision M, 04/28/2025
+Software Revision N, 12/27/2025
 
 Verified working on:
 
-Python 2.7, 3.11/12
+Python 3.11/12/13
 
 Windows 10/11 64-bit
 
@@ -29,6 +29,12 @@ Raspberry Pi 4/5
 
 ########################### Python module installation instructions, all OS's
 
-Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_All:['keyboard', 'future.builtins', 'MyPrint_ReubenPython2and3Class']
+Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies: []
+
+Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_TestProgram: ['keyboard', 'MyPrint_ReubenPython2and3Class', 'ReubenGithubCodeModulePaths']
+
+Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_NestedLayers: []
+
+Joystick2DdotDisplay_ReubenPython2and3Class, ListOfModuleDependencies_All:['keyboard', 'MyPrint_ReubenPython2and3Class', 'ReubenGithubCodeModulePaths']
 
 ###########################
